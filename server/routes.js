@@ -149,7 +149,7 @@ router.post('/users/check', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-// Change the status of a selected task to "completed"
+
 router.post('/tasks/complete', async (req, res) => {
     const { teamCode, taskName } = req.body;
 

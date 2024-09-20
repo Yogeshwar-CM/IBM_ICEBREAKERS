@@ -21,7 +21,7 @@ const Home = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/api/signup', { username, password, name, skills });
+      const res = await axios.post('https://ibm-icebreakers.vercel.app/api/signup', { username, password, name, skills });
       console.log(res.data.message);
       setFormType('login'); // Switch to login after sign-up
     } catch (err) {
@@ -32,7 +32,7 @@ const Home = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/api/signin', { username, password });
+      const res = await axios.post('https://ibm-icebreakers.vercel.app/api/signin', { username, password });
       setToken(res.data.token);
       setIsAuthenticated(true);
     } catch (err) {
@@ -47,7 +47,7 @@ const Home = () => {
     setTeamCode(code);
 
     try {
-      const res = await axios.post('http://localhost:3000/api/teams', { teamName, leaderName: username, teamCode }, {
+      const res = await axios.post('https://ibm-icebreakers.vercel.app/api/teams', { teamName, leaderName: username, teamCode }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log(res.data.message);
@@ -60,7 +60,7 @@ const Home = () => {
   const handleJoinTeam = async (e) => {
     e.preventDefault();
     try {
-      const checkRes = await axios.get(`http://localhost:3000/api/teams/${teamId}/check`);
+      const checkRes = await axios.get(`https://ibm-icebreakers.vercel.app/api/teams/${teamId}/check`);
       if (checkRes.status === 200) {
         toast.success("Success");
         navigate(`/main/${teamId}`);

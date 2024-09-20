@@ -24,7 +24,7 @@ function Main() {
 
     const fetchMembers = async () => {
         try {
-            const response = await axios.post(`http://localhost:3000/api/teams/members`, {
+            const response = await axios.post(`https://ibm-icebreakers.vercel.app/api/teams/members`, {
                 teamCode: roomId
             });
             setMembers(response.data.members || []);
@@ -35,7 +35,7 @@ function Main() {
 
     const fetchTasks = async () => {
         try {
-            const response = await axios.post(`http://localhost:3000/api/teams/tasks`, {
+            const response = await axios.post(`https://ibm-icebreakers.vercel.app/api/teams/tasks`, {
                 teamCode: roomId
             });
             setTasks(response.data.tasks || []);
@@ -74,7 +74,7 @@ function Main() {
         try {
             const { name, assignedMember, skillsRequired, deadline, priority, teamCode } = taskData;
 
-            const response = await axios.post('http://localhost:3000/api/tasks', {
+            const response = await axios.post('https://ibm-icebreakers.vercel.app/api/tasks', {
                 name,
                 assignedMember,
                 skillsRequired,
@@ -128,7 +128,7 @@ function Main() {
         try {
             const validMembers = [];
             for (const username of newMembers) {
-                const response = await axios.post('http://localhost:3000/api/users/check', { username });
+                const response = await axios.post('https://ibm-icebreakers.vercel.app/api/users/check', { username });
                 if (response.data.user) {
                     validMembers.push(response.data.user);
                 }
@@ -138,7 +138,7 @@ function Main() {
                 alert('Some usernames do not exist.');
                 return;
             }
-            await axios.post(`http://localhost:3000/api/members`, { teamCode: roomId, members: validMembers });
+            await axios.post(`https://ibm-icebreakers.vercel.app/api/members`, { teamCode: roomId, members: validMembers });
             alert('Members added successfully');
             setShowMemberForm(false);
             setMembers([...members, ...validMembers]);
@@ -159,7 +159,7 @@ function Main() {
 
     const handleTaskComplete = async (task) => {
         try {
-            await axios.post('http://localhost:3000/api/tasks/complete', {
+            await axios.post('https://ibm-icebreakers.vercel.app/api/tasks/complete', {
                 teamCode: roomId,
                 taskName: task.name
             });
