@@ -10,7 +10,7 @@ function Main() {
     const [taskData, setTaskData] = useState({
         name: '',
         assignedMember: '',
-        skillsRequired: '',
+        skillsRequired: [],
         deadline: '',
         priority: '',
         teamCode: roomId
@@ -63,46 +63,41 @@ function Main() {
     }, [roomId]);
 
     const handleTaskChange = (e) => {
+        const { name, value } = e.target;
         setTaskData({
             ...taskData,
-            [e.target.name]: e.target.value
+            [name]: name === 'skillsRequired' ? value.split(',').map(skill => skill.trim()) : value
         });
     };
 
-    const handleTaskSubmit = async (e) => {
-        e.preventDefault();
-        const { name, assignedMember, skillsRequired, deadline, priority, teamCode } = taskData;
-
-        if (!teamCode || !name || !assignedMember || !skillsRequired || !deadline || !priority) {
-            alert('All fields are required');
-            return;
-        }
-
+    const handleTaskSubmit = async () => {
         try {
-            const res = await axios.post('http://localhost:3000/api/tasks', {
-                teamCode,
+            const { name, assignedMember, skillsRequired, deadline, priority, teamCode } = taskData;
+
+            const response = await axios.post('http://localhost:3000/api/tasks', {
                 name,
                 assignedMember,
                 skillsRequired,
                 deadline,
-                priority
+                priority,
+                teamCode
             });
 
-            setShowTaskForm(false);
+            alert(response.data.message);
+            // Optionally, you can also update the tasks state here
+            setTasks([...tasks, response.data.task]);
+            setShowTaskForm(false); // Close the modal after successful submission
             setTaskData({
                 name: '',
                 assignedMember: '',
-                skillsRequired: '',
+                skillsRequired: [],
                 deadline: '',
                 priority: '',
                 teamCode: roomId
-            });
-
-            alert(res.data.message || 'Task created successfully');
-            fetchTasks();
-        } catch (err) {
-            console.error(err);
-            alert('An error occurred while creating the task');
+            }); // Reset the task data
+        } catch (error) {
+            console.error('Error creating task:', error);
+            alert('Failed to create task');
         }
     };
 
@@ -214,7 +209,34 @@ function Main() {
                             </button>
                         </div>
                     </div>
-                    <div className="Notif"></div>
+
+                    <div class="notif">
+                        <h2>Notifications</h2>
+                        <div class="mnot">
+                            <i class="fas fa-bell"></i>
+                            <div>
+                                <h3>CodeCollab - Reminder</h3>
+                                <p>19-09-24</p>
+                                <p>Review the new design mockups for the homepage.</p>
+                            </div>
+                        </div>
+                        <div class="mnot">
+                            <i class="fas fa-bell"></i>
+                            <div>
+                                <h3>CodeCollab - Reminder</h3>
+                                <p>19-09-24</p>
+                                <p>Finalize the API endpoints for the user authentication feature.</p>
+                            </div>
+                        </div>
+                        <div class="mnot">
+                            <i class="fas fa-bell"></i>
+                            <div>
+                                <h3>CodeCollab - Reminder</h3>
+                                <p>19-09-24</p>
+                                <p>Check the latest feedback from the QA team on the last build.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div>
@@ -277,7 +299,13 @@ function Main() {
                             <input type="text" name="name" placeholder="Task Name" onChange={handleTaskChange} required />
                             <input type="text" name="assignedMember" placeholder="Assigned Member" value={taskData.assignedMember} readOnly />
                             <button type="button" onClick={handleAutoAssign} className="auto-assign-btn">Auto Assign</button>
-                            <input type="text" name="skillsRequired" placeholder="Skills Required" onChange={handleTaskChange} required />
+                            <input
+                                type="text"
+                                name="skillsRequired"
+                                placeholder="Skills Required (comma separated)"
+                                onChange={handleTaskChange}
+                                required
+                            />
                             <input type="date" name="deadline" onChange={handleTaskChange} required />
                             <select name="priority" onChange={handleTaskChange} required>
                                 <option value="">Select Priority</option>

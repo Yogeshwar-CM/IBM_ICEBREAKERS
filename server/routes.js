@@ -188,12 +188,9 @@ router.get('/teams/:teamCode/check', async (req, res) => {
 
 router.post('/tasks', async (req, res) => {
     try {
-        const { teamCode, name, assignedMember, skillsRequired, deadline, priority, status } = req.body;
+        const { teamCode, name, assignedMember, skillsRequired, deadline, priority } = req.body;
 
-
-        console.log('Received data:', req.body);
-
-        if (!teamCode || !name || !assignedMember || !skillsRequired || !deadline || !priority || !status) {
+        if (!teamCode || !name || !assignedMember || !skillsRequired || !deadline || !priority) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
@@ -206,12 +203,10 @@ router.post('/tasks', async (req, res) => {
             skillsRequired,
             deadline,
             priority,
-            status // Include status here
         };
-
+        console.log(newTask);
         team.tasks.push(newTask);
         await team.save();
-
         res.status(201).json({ message: 'Task created successfully', task: newTask });
     } catch (err) {
         res.status(500).json({ error: err.message });

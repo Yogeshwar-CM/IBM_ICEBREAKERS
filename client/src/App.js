@@ -6,17 +6,18 @@ import EditorPage from "./components/EditorPage";
 import { Toaster } from "react-hot-toast";
 
 function App() {
-  const consoleError = console.error;
+  const originalConsoleError = console.error;
+
   console.error = (...args) => {
     if (
-      args[0] &&
+      typeof args[0] === "string" &&
       args[0].includes(
         "ResizeObserver loop completed with undelivered notifications."
       )
     ) {
-      return;
+      return; // Ignore this specific warning
     }
-    consoleError(...args);
+    originalConsoleError(...args); // Call the original console.error for other errors
   };
   return (
     <>

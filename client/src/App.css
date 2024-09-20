@@ -185,7 +185,6 @@ input#cr::placeholder {
 }
 
 .task-h {
-  margin-top: -72vh;
   height: fit-content;
 }
 .task-list {
@@ -198,7 +197,57 @@ input#cr::placeholder {
   flex-wrap: wrap;
 }
 .ah {
-  margin-top: -70vh;
+  margin-top: -52vh;
+}
+.notif {
+  padding: 12px;
+  width: 21vw;
+  background-color: #1f2937;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.notif h2 {
+  font-size: 18px;
+  font-weight: 400;
+  color: white;
+  margin-bottom: 16px;
+}
+
+.mnot {
+  padding: 12px;
+  background-color: #374151;
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  transition: transform 0.2s;
+  cursor: pointer;
+  margin-bottom: 16px; /* Adds space between notifications */
+}
+
+.mnot:hover {
+  transform: scale(1.02);
+}
+
+.mnot i {
+  color: #fbbf24;
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+.mnot h3 {
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+}
+
+.mnot p {
+  color: #e5e7eb;
+  font-size: 12px;
+}
+
+.mnot p:first-of-type {
+  color: #d1d5db; /* Date color */
 }
 .tag {
   background-color: #3a3a3a;
@@ -334,7 +383,6 @@ input#cr::placeholder {
   background-color: #dc2626;
 }
 
-/* Auto Assign Button */
 .auto-assign-btn {
   background-color: #10b981;
   color: white;
@@ -345,4 +393,10 @@ input#cr::placeholder {
 
 .auto-assign-btn:hover {
   background-color: #059669;
+}
+.Notif {
+  border-radius: 4px;
+  padding: 0.6rem 0.85rem;
+  font-size: 1rem;
+  overflow-x: scroll;
 }
